@@ -25,22 +25,36 @@ classdef NBodySimulation < matlab.apps.AppBase
     end
 
     properties (Access = private)
-        N, pos, vel, mass, colors, radii
-        trailX, trailY, trailLen
-        bodyPlots, trailLines
-        G, dt, softening, simTime, stepCount
-        simTimer, isRunning = false, isInit = false
+        N,
+        pos,
+        vel,
+        mass,
+        colors,
+        radii
+        trailX,
+        trailY,
+        trailLen
+        bodyPlots,
+        trailLines
+        G,
+        dt,
+        softening,
+        simTime,
+        stepCount
+        simTimer,
+        isRunning = false,
+        isInit = false
     end
 
     methods (Access = private)
         function initSimulation(app)
             app.stopSim(); % Ensure timer is stopped before re-init
-            app.N         = round(app.NumBodiesSlider.Value);
-            app.G         = app.GravSlider.Value;
-            app.dt        = app.TimeStepSlider.Value;
+            app.N = round(app.NumBodiesSlider.Value);
+            app.G = app.GravSlider.Value;
+            app.dt = app.TimeStepSlider.Value;
             app.softening = app.SoftenSlider.Value;
-            app.trailLen  = round(app.TrailSlider.Value);
-            app.simTime   = 0;
+            app.trailLen = round(app.TrailSlider.Value);
+            app.simTime = 0;
             app.stepCount = 0;
             app.setupPreset(app.PresetDropDown.Value);
             app.initGraphics();
@@ -49,8 +63,9 @@ classdef NBodySimulation < matlab.apps.AppBase
         end
 
         function setupPreset(app, preset)
-            N = app.N; G = app.G;
-            app.mass = ones(N,1); 
+            N = app.N;
+            G = app.G;
+            app.mass = ones(N , 1); 
             switch preset
                 case 'Random Cluster'
                     R = 25;
@@ -91,7 +106,7 @@ classdef NBodySimulation < matlab.apps.AppBase
 
         function initGraphics(app)
             cla(app.SimAxes); hold(app.SimAxes, 'on');
-            sPos = (rand(200,2)-0.5)*1200;
+            sPos = (rand(200,2) - 0.5) * 1200;
             scatter(app.SimAxes, sPos(:,1), sPos(:,2), 1.5, [0.3 0.3 0.5], 'filled', 'HandleVisibility', 'off');
             app.trailLines = gobjects(app.N,1);
             for i = 1:app.N
@@ -138,13 +153,17 @@ classdef NBodySimulation < matlab.apps.AppBase
         end
 
         function timerFcn(app, ~, ~)
-            if ~app.isRunning || ~isvalid(app.UIFigure), return; end
+            if ~app.isRunning || ~isvalid(app.UIFigure)
+                 return;
+            end
             try
                 for k = 1:4
                     app.stepSimulation();
                 end
                 app.updateGraphics();
-                if mod(app.stepCount, 40) == 0, app.updateStats(); end
+                if mod(app.stepCount, 40) == 0
+                    app.updateStats();
+                end
             catch
                 app.stopSim();
             end
@@ -180,7 +199,7 @@ classdef NBodySimulation < matlab.apps.AppBase
             %TODO FIX THIS ^^^^^^^^^^^^^^^^^^^
 
             app.StartButton = uibutton(app.CtrlGrid, 'Text', 'PLAY / RESUME', 'BackgroundColor', [0.1 0.4 0.2], 'FontColor', 'w', 'ButtonPushedFcn', @(~,~) app.startSim());
-            app.StopButton  = uibutton(app.CtrlGrid, 'Text', 'PAUSE', 'BackgroundColor', [0.4 0.1 0.1], 'FontColor', 'w', 'ButtonPushedFcn', @(~,~) app.stopSim());
+            app.StopButton = uibutton(app.CtrlGrid, 'Text', 'PAUSE', 'BackgroundColor', [0.4 0.1 0.1], 'FontColor', 'w', 'ButtonPushedFcn', @(~,~) app.stopSim());
             app.ResetButton = uibutton(app.CtrlGrid, 'Text', 'RESET SYSTEM', 'BackgroundColor', [0.2 0.2 0.4], 'FontColor', 'w', 'ButtonPushedFcn', @(~,~) app.initSimulation());
 
             app.StatsPanel = uipanel(app.CtrlGrid, 'Title', 'System Metrics', 'BackgroundColor', panel_dark, 'ForegroundColor', accent);
@@ -198,7 +217,10 @@ classdef NBodySimulation < matlab.apps.AppBase
         end
 
         function startSim(app)
-            if ~app.isInit, app.initSimulation(); end
+            if ~app.isInit
+                app.initSimulation();
+            end
+
             app.isRunning = true;
             % The fix: only start if it's currently stopped
             if isvalid(app.simTimer) && strcmp(app.simTimer.Running, 'off')
@@ -222,7 +244,9 @@ classdef NBodySimulation < matlab.apps.AppBase
         end
         function delete(app)
             app.stopSim();
-            if isvalid(app.simTimer), delete(app.simTimer); end
+            if isvalid(app.simTimer)
+                delete(app.simTimer);
+            end
         end
     end
 end
