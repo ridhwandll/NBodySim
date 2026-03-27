@@ -195,7 +195,6 @@ classdef NBodySimulation < matlab.apps.AppBase
             app.SimAxes.XTickLabel = {};
             app.SimAxes.YTickLabel = {};
             grid(app.SimAxes, 'off');
-            app.SimAxes.GridAlpha = 0.1;
         end
 
         function startSim(app)
