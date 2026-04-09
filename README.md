@@ -245,9 +245,9 @@ NBS/
 
 Developed for **ChE 208 Sessional** at **BUET (Bangladesh University of Engineering and Technology)**, Department of Chemical Engineering.
 
-- **Rid** — Physics engine, integration, presets, energy monitor, export pipeline, UI architecture
-- **Fuad** — Color system, video export, welcome screen, audio, deployment utilities  
-- **Arefin** — Collision detection and resolution system
+- **Fuad** - Physics engine, integration, presets, energy monitor, export pipeline, UI architecture, Color system, video export, welcome screen, audio, deployment utilities 
+- **Arefin** - Collision detection and resolution system
+- **Mehran** - Presets
 
 ---
 
